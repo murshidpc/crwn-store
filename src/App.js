@@ -14,7 +14,6 @@ import { auth , createUserProfileDocument} from './utils/firebase.utils';
 
 const App = () => {
   const [user, setUser] = useState({});
-  console.log(user);
 
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
@@ -36,7 +35,6 @@ const App = () => {
   // useEffect(() => {
   //   return () => subscribe();
   // },[])
-  console.log(user);
 
   return (
     <div>
