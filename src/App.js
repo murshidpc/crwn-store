@@ -10,21 +10,33 @@ import SignInAndSignUpPage from './pages/sign-in-sign-up/sign-in-sign-up.compone
 import Header from './components/header/header.component';
 import { useEffect, useState } from 'react';
 
-import { auth } from './utils/firebase.utils';
+import { auth , createUserProfileDocument} from './utils/firebase.utils';
 
 const App = () => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({});
+  console.log(user);
 
   useEffect(() => {
-      auth.onAuthStateChanged((user) => {
-        setUser(user);
+    auth.onAuthStateChanged(async (user) => {
+        if(user){
+          const userRef = await createUserProfileDocument(user);
+          userRef.onSnapshot(snapshot => {
+            setUser({
+              id : snapshot.id,
+              ...snapshot.data() 
+            })
+         })
+        }else{
+          setUser({});
+        }
+
       })
   },[])
 
   // useEffect(() => {
-  //   return () => console.log("unmount");
+  //   return () => subscribe();
   // },[])
-
+  console.log(user);
 
   return (
     <div>

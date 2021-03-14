@@ -11,14 +11,43 @@ const config = {
     appId: "1:160015441039:web:9820a0665e3f2cc452e4fa"
   };
 
-firebase.initializeApp(config);  
+  firebase.initializeApp(config);  
 
-export const auth = firebase.auth();
-export const firestore = firebase.firestore();
+  export const auth = firebase.auth();
+  export const firestore = firebase.firestore();
 
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt : 'select_account'});
+  export const createUserProfileDocument = async(userAuth, additionalData) => {
+    if(!userAuth) return;
 
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
+    const userRef = firestore.doc(`/users/${userAuth.uid}`);
+    const snapShot = await userRef.get();
 
-export default firebase;
+    if(!snapShot.exists){
+      const {displayName, email} = userAuth;
+      const createdAt = new Date();
+      try{
+        await userRef.set({
+          displayName,
+          email,
+          createdAt,
+          ...additionalData
+        })
+        console.log("user created")
+      }
+      catch(error){
+        console.log("error at creating user", error.message)
+      }  
+    }
+
+    return userRef; 
+  } 
+
+
+
+
+  const provider = new firebase.auth.GoogleAuthProvider();
+  provider.setCustomParameters({ prompt : 'select_account'});
+
+  export const signInWithGoogle = () => auth.signInWithPopup(provider);
+
+  export default firebase;
