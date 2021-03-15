@@ -13,6 +13,13 @@ export const addItem = (item) => {
     }
 }
 
+export const clearItem = (item) => {
+    return {
+        type : CART_TYPES.CLEAR_CART_ITEM,
+        payload : item
+    }
+}
+
 export const removeItem = (item) => {
     return {
         type : CART_TYPES.REMOVE_ITEM,
