@@ -22,7 +22,7 @@ const  Header = ({currentUser}) => {
                 CONTACT
             </Link>
             {
-                currentUser !== null ? (
+                JSON.stringify(currentUser) !== '{}' ? (
                     <div className="option"
                         onClick={() => auth.signOut()}
                     >

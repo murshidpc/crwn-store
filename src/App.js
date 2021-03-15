@@ -48,7 +48,7 @@ const App = (props) => {
       <Switch>
         <Route exact path='/' component={HomePage} />
         <Route  path='/shop' component={ShopPage} />
-        <Route to="/signin" render={props.currentUser? (<Redirect to='/' />) : (<SignInAndSignUpPage />)} />
+        <Route to="/signin" render={ () => JSON.stringify(props.currentUser) !== '{}' ? (<Redirect to='/' />) : (<SignInAndSignUpPage />)  } />
       </Switch>
     </div>
   );
