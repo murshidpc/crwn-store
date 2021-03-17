@@ -4,6 +4,11 @@ const selectShop = state => state.shop;
 
 export const selectShopCollections = createSelector(
     [selectShop],
+    shop => shop.collections
+)
+
+export const selectShopCollectionsInArray = createSelector(
+    [selectShop],
     shop => Object.keys(shop.collections).map(key => shop.collections[key])
 )
 
