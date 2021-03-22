@@ -14,6 +14,8 @@ import CheckoutPage from './pages/checkout/checkout.component';
 
 // current user selector
 import { selectCurrentUser } from './redux/user/user.selectors'; 
+// shop data selector
+// import { selectShopCollectionsInArray } from './redux/shop/shop.selector';
 
 //header component
 import Header from './components/header/header.component';
@@ -25,7 +27,7 @@ import { setCurrentUser } from './redux/user/user.actions';
 
 const App = (props) => {
 
-  const { setCurrentUser } = props
+  const { setCurrentUser, currentUser} = props
 
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
@@ -54,7 +56,7 @@ const App = (props) => {
       <Switch>
         <Route exact path='/' component={HomePage} />
         <Route  path='/shop' component={ShopPage} />
-        <Route  path="/signin" render={ () => JSON.stringify(props.currentUser) !== '{}' ? (<Redirect to='/' />) : (<SignInAndSignUpPage />)  } />
+        <Route  path="/signin" render={ () => JSON.stringify(currentUser) !== '{}' ? (<Redirect to='/' />) : (<SignInAndSignUpPage />)  } />
         <Route  path='/checkout' component={CheckoutPage} />
       </Switch>
     </div>
