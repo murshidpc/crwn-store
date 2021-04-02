@@ -44,7 +44,7 @@ const App = (props) => {
         }
 
       })
-  },[])
+  },[setCurrentUser])
 
   // useEffect(() => {
   //   return () => subscribe();

@@ -6,11 +6,13 @@ import CustomButton from '../custom-button/custom-button.component';
 import { auth, createUserProfileDocument } from '../../utils/firebase.utils';
 
 const SignUp = () => {
-
-    const [displayName, setDisplayName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [userCredentials, setUserCredentials] = useState({
+        displayName:'',
+        email:'',
+        password:'',
+        confirmPassword:''
+    });
+    const {displayName, email, password, confirmPassword } = userCredentials;
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -23,11 +25,21 @@ const SignUp = () => {
         const { user } = await auth.createUserWithEmailAndPassword(email, password);
 
         await createUserProfileDocument(user, {displayName});
-        setDisplayName('');
-        setEmail('');
-        setPassword('');
-        setConfirmPassword('');
+        setUserCredentials({
+            displayName:'',
+            email:'',
+            password:'',
+            confirmPassword:''
+        })
     }
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setUserCredentials({
+            ...userCredentials, [name] : value
+        })
+    }
+
     return(
         <div className='sign-up'>
             <h1 className='title'>You are not having a account</h1>
@@ -39,7 +51,7 @@ const SignUp = () => {
                 <FormInput  
                 type="text"
                 name="displayName"
-                onChange={(e) => setDisplayName(e.target.value)}
+                onChange={handleChange}
                 label="DisplayName"
                 value={displayName}
                 required
@@ -47,7 +59,7 @@ const SignUp = () => {
                 <FormInput  
                 type="email"
                 name="email"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleChange}
                 label="Email"
                 value={email}
                 required
@@ -55,7 +67,7 @@ const SignUp = () => {
                 <FormInput  
                 type="password"
                 name="password"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handleChange}
                 label="Password"
                 value={password}
                 required
@@ -63,7 +75,7 @@ const SignUp = () => {
                 <FormInput  
                 type="password"
                 name="confirm_password"
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                onChange={handleChange}
                 label="Confirm Password"
                 value={confirmPassword}
                 required

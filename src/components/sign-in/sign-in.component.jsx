@@ -6,21 +6,35 @@ import './sign-in.style.scss';
 
 
 const SignIn = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [userCredential, setUserCredential] = useState({
+        email: '',
+        password: ''
+    })
     
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try{
             await auth.signInWithEmailAndPassword(email, password);
-            setEmail('');
-            setPassword('');
+            setUserCredential({
+                email: '',
+                password: ''
+            })
         }catch(error){
             console.log(error)
         }       
     }
 
+    const handleChange = (event) => {
+        const { name, value} = event.target;
+
+        setUserCredential({
+            ...userCredential, [name] : value
+        })
+        
+    }
+    const { email, password } = userCredential;
+    console.log(email, password);
     return(
         <div className="sign-in">
             <h1 className="title">I Already have an account</h1>
@@ -31,14 +45,14 @@ const SignIn = () => {
                     name="email" 
                     value={email} 
                     label="Email"
-                    onChange={(e)=>setEmail(e.target.value)}
+                    onChange={handleChange}
                     />
                 <FormInput 
                     type="password" 
                     name="password" 
                     label="Password"
                     value={password} 
-                    onChange={(e)=>setPassword(e.target.value)}
+                    onChange={handleChange}
                     />
                     <div className="buttons">
                         <CustomButton type="submit">Sign in</CustomButton>
